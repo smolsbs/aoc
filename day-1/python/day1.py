@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-with open('input', 'r') as fp:
+with open('../input', 'r') as fp:
     data = [int(x) for x in fp.readlines()]
 print(sum(data))     # part 1
 
