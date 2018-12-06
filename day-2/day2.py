@@ -1,6 +1,6 @@
 import sys
 import itertools
-with open('../input', 'r') as fp:
+with open('input', 'r') as fp:
     data = [x.strip('\n') for x in fp.readlines()]
 
 def part1(data):

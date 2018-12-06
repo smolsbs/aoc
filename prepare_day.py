@@ -6,41 +6,21 @@ import requests
 
 PY_TEMPLATE = """#!/usr/bin/env python3
 
-with open('../input', 'r') as fp:
+with open('input', 'r') as fp:
     data = [x for x in fp.readlines()]"""
 
-
-def create_dir(args):
+def create(args):
     os.mkdir(args['dayDir'])
     os.chdir(args['dayDir'])
-    os.mkdir("python")
-    os.mkdir("csharp")
-    print("Directories created.")
-
-
-def create_files(args):
-    print(os.getcwd())
     open('README.md', 'w').close()
     open('input', 'w').close()
-
-    os.chdir('python')
     fn = 'day' + str(args['day']) + '.py'
     fp = open(fn, 'w')
     fp.write(PY_TEMPLATE)
     fp.close()
-    print("Python folder populated. Switching to C#")
-
-    os.chdir(os.path.join(args['root'], args['dayDir']))
-    os.chdir('csharp')
-
-    subprocess.run("dotnet new console", shell=False, check=True)
-    print("C# folder populated.\n Code away")
 
 
 def fetch_input(args):
-    os.chdir(args['root'])
-    with open('config', 'r') as fp:
-        cookie = {"session": fp.read().strip('\n')}
     if args['dayDir'] not in os.listdir():
         os.mkdir(args['dayDir'])
     os.chdir(args['dayDir'])
@@ -48,7 +28,7 @@ def fetch_input(args):
     url = "https://adventofcode.com/2018/day/" + str(args['day']) + "/input"
     headers = {"user-agent": 
                 "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"}
-    req = requests.get(url, stream=True, headers=headers, cookies=cookie)
+    req = requests.get(url, stream=True, headers=headers, cookies=args['cookie'])
     req.raise_for_status()
 
     fp = open('input', 'w')
@@ -85,25 +65,24 @@ def main():
                         help='Sets if input should be fetched or not')
 
     res = parser.parse_args()
-
+    
     args = {'root': os.getcwd(),
             'create': res.create,
-            'fetch': res.fetch}
+            'fetch': res.fetch,}
+
     if res.day is None:
         args['day'] = datetime.datetime.today().day
     else:
         args['day'] = res.day
+    with open('config', 'r') as fp:
+        args['cookie'] = {"session": fp.read().strip('\n')}
 
     args['dayDir'] = 'day-' + str(args['day'])
 
-    if args['create'] and not args['fetch']:
-        create_dir(args)
-        create_files(args)
-    elif res.create and args['fetch']:
-        create_dir(args)
-        create_files(args)
-        fetch_input(args)
-    elif not args['create'] and args['fetch']:
+    if args['create']:
+        create(args)
+
+    if args['fetch']:
         fetch_input(args)
 
 
