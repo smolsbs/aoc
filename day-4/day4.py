@@ -6,7 +6,7 @@
 from collections import defaultdict
 
 def main():
-    with open('../input', 'r') as fp:
+    with open('input', 'r') as fp:
         data = sorted([x.strip('\n') for x in fp.readlines()])
 
     Guard_minutes = defaultdict(lambda: (0, [0 for x in range(60)]))

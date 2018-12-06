@@ -18,7 +18,7 @@ def reactor(data):
     return len(newdata)
 
 def main():
-    with open('../input', 'r') as fp:
+    with open('input', 'r') as fp:
         data = fp.read().strip('\n')
 
     part1 = reactor(data)

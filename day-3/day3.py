@@ -3,7 +3,7 @@ import numpy as np
 
 
 def main():
-    with open('../input', 'r') as fp:
+    with open('input', 'r') as fp:
         data = [read_coords(x) for x in fp.readlines()]
     n = 1000 # dimention of 2D array
 
