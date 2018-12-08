@@ -21,9 +21,10 @@ def create(args):
 
 
 def fetch_input(args):
-    if args['dayDir'] not in os.listdir():
-        os.mkdir(args['dayDir'])
-    os.chdir(args['dayDir'])
+    if args['dayDir'] != os.getcwd().split('\\')[-1]:
+        if args['dayDir'] not in os.listdir():
+            os.mkdir(args['dayDir'])
+        os.chdir(args['dayDir'])
 
     url = "https://adventofcode.com/2018/day/" + str(args['day']) + "/input"
     headers = {"user-agent": 
