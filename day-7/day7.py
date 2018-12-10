@@ -1,24 +1,16 @@
 #!/usr/bin/env python3
+from networkx  import DiGraph, lexicographical_topological_sort as lts
 
-import networkx as nx
-
-def parser(line):
-    aux = line.split(' ')
-    return aux[1], aux[7]
+# Step T must be finished before step P can begin.
+# Step Q must be finished before step W can begin.
 
 
 def main():
     with open('input', 'r') as fp:
-        data = [x for x in fp.read().split('\n')]
-    depTree = nx.DiGraph()
+        depTree = DiGraph([(x[1], x[7]) for x in map(str.split, fp.readlines())])
 
-    for line in data:
-        node, child = parser(line)
-        depTree.add_edge(node, child)
-
-    part1 = nx.lexicographical_topological_sort(depTree)
+    part1 = lts(depTree)
     print(''.join(part1))
-
 
 if __name__ == '__main__':
     main()
