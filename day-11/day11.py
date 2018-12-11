@@ -47,7 +47,7 @@ def find_best_power_size(grid, init, end):
                     best = s
                     x, y =  j+1, i+1
 
-        print("{},{},{} max={}".format(x, y, size, best))
+        print("{},{},{} max={}".format(x, y, size+1, best))
 
 if __name__ == '__main__':
     main()
