@@ -34,7 +34,6 @@ def print_clouds(p_pos, i):
     #part 1 and part 2 together
     #part1 is the image with the points making the text
     #part2 just read the filename, those are the seconds
-    
     img = Image.new('1', (300, 300))
     pts = []
     for k, v in p_pos.items():
