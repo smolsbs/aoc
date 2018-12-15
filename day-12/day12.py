@@ -2,50 +2,58 @@
 # pylint: disable=C0103, C0111
 
 from collections import defaultdict
-# from pprint import pprint
-
-def parse(c):
-    if c == '#':
-        return '1'
-    return '0'
 
 def main():
-    # ...## => #
-    # ..#.. => #
-    rules = defaultdict(list)
-    with open('sinput', 'r') as fp:
+    
+    with open('input', 'r') as fp:
         data = fp.read().split('\n')
-        init_state = [0,0,0] + [parse(c) for c in data[0].split(' ')[2]] + [0,0,0,0,0,0]
+        state = '....' + data[0].split(' ')[2] + ''.join('.' for _ in range(2000))
+        rules = defaultdict(list)
         for rule in data[2:]:
-            out = parse(rule[-1])
-            rules[out].append([parse(c) for c in rule[:5]])
+            out = rule[-1]
+            rules[out].append(rule.split(' ')[0])
+    
+    _sum, amount, i = iterator(state, rules)
 
+    print("Part 2: %d" % (_sum + amount * (50000000000 - i)))
+
+
+
+def iterator(flowerpots, rules):
     gen = 0
-    state = init_state
-    state_len = len(init_state)
-    while gen < 21:
-        for i in range(state_len):
+    _len = len(flowerpots)
+    diff = 0
+    prev_s = 0
+    while True:
+        new_state = ''
+        for i in range(_len):
             if i == 0:
-                pot = state[-2:] + state[:3]
+                pot = flowerpots[-2:] + flowerpots[:3]
             elif i == 1:
-                pot = state[:-1] + state[:4]
-            elif i == state_len - 2:
-                pot = state[-4:] + state[0:]
-            elif i == state_len - 1:
-                pot = state[-3:] + state[:1]
+                pot = flowerpots[:-1] + flowerpots[:4]
+            elif i == _len - 2:
+                pot = flowerpots[-4:] + flowerpots[0:]
+            elif i == _len - 1:
+                pot = flowerpots[-3:] + flowerpots[:1]
             else:
-                pot = state[i-2:i+3]
-            if pot in rules['1']:
-                state[i] = '1'
-            elif pot in rules['0'] or pot not in rules.values():
-                state[i] = '0'
-        print(''.join(state).replace('1','#').replace('0','.'))
+                pot = flowerpots[i-2:i+3]
+            if pot in rules['#']:
+                new_state += '#'
+            elif pot in rules['.'] or pot not in rules.values():
+                new_state += '.'
+        flowerpots = new_state
         gen += 1
-    s=0
-    print()
-    for i in range(len(state)):
-        if state[i] == 1:
-            s += i
-    print(s)
+        s = 0
+        for i in range(_len):
+            if flowerpots[i] == '#':
+                s += (i-4)
+        if gen == 20:
+            print("Part 1: %d" % s)
+        if (s - prev_s) == diff:
+            return (prev_s, diff, gen-1)
+        diff = s - prev_s
+        prev_s = s
+
+
 if __name__ == '__main__':
     main()
