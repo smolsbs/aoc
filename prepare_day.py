@@ -5,9 +5,12 @@ import subprocess
 import requests
 
 PY_TEMPLATE = """#!/usr/bin/env python3
+def main():
+    with open('input', 'r') as fp:
+        data = [x for x in fp.readlines()]
 
-with open('input', 'r') as fp:
-    data = [x for x in fp.readlines()]"""
+if __name__ == '__main__':
+    main()"""
 
 def create(args):
     os.mkdir(args['dayDir'])
