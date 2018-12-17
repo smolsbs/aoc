@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 
 from collections import defaultdict
+from os import chdir, mkdir
 import re
 from PIL import Image, ImageDraw
-from os import chdir, mkdir
+
 
 def main():
     with open('input', 'r') as fp:
@@ -18,18 +19,18 @@ def main():
         p_pos[i][0], p_pos[i][1] = int(info.group(1)), int(info.group(2))
         p_vel[i][0], p_vel[i][1] = int(info.group(3)), int(info.group(4))
         i += 1
-    
+
     i = 0
     end = 10700
     while i < end:
         for k in p_pos.keys():
-            p_pos[k][0] += p_vel[k][0] 
+            p_pos[k][0] += p_vel[k][0]
             p_pos[k][1] += p_vel[k][1]
 
         i += 1
         if i > 10600:
             print_clouds(p_pos, i)
-            
+
 def print_clouds(p_pos, i):
     #part 1 and part 2 together
     #part1 is the image with the points making the text

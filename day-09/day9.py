@@ -23,7 +23,7 @@ def main(part2=False):
             marble_id = rem_id
         else:
             insert_id = (marble_id + 2 - 1) % (len(circle)) + 1
-            circle.insert( insert_id , marble_number)
+            circle.insert(insert_id, marble_number)
             marble_id = circle.index(marble_number)
         marble_number += 1
         player_id = (player_id + 1) % n_players
