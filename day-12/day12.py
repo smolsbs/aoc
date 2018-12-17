@@ -4,7 +4,6 @@
 from collections import defaultdict
 
 def main():
-    
     with open('input', 'r') as fp:
         data = fp.read().split('\n')
         state = '....' + data[0].split(' ')[2] + ''.join('.' for _ in range(2000))
@@ -12,11 +11,9 @@ def main():
         for rule in data[2:]:
             out = rule[-1]
             rules[out].append(rule.split(' ')[0])
-    
     _sum, amount, i = iterator(state, rules)
 
     print("Part 2: %d" % (_sum + amount * (50000000000 - i)))
-
 
 
 def iterator(flowerpots, rules):
