@@ -11,11 +11,16 @@ def main():
         depTree = DiGraph([(x[1], x[7]) for x in map(str.split, fp.readlines())])
 
     part1 = lts(depTree)
-    print(depTree.in_degree('E'))
+    print()
     print(''.join(part1))
 
+    t = 0
 
+    node_list = depTree.nodes()
+    queue = [None for _ in range(5)]
 
+    while node_list:
+        for 
 
 if __name__ == '__main__':
     main()
