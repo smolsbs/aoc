@@ -9,7 +9,7 @@ def main():
     data = set()
     with open('sinput', 'r') as fp:
         data.add(tuple(map(int, x.split(", "))) for x in fp.readlines())
-    print(data[0])
+    print(data.)
     max_x = max(list(zip(*data))[0])
     max_y = max(list(zip(*data))[1])
     chart = [[0 for _ in range(max_y)] for _ in range(max_x)]
