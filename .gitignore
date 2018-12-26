@@ -1,4 +1,4 @@
-*/*/.vscode/*
-*/csharp/bin/*
-*/csharp/obj/*
+*/*/*/.vscode/*
+*/*/csharp/bin/*
+*/*/csharp/obj/*
 config
