@@ -2,3 +2,4 @@
 */*/csharp/bin/*
 */*/csharp/obj/*
 config
+.vscode/*
