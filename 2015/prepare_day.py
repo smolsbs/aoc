@@ -3,6 +3,7 @@ import argparse
 import datetime
 import subprocess
 import requests
+import sys
 
 PY_TEMPLATE = """#!/usr/bin/env python3
 def main():
@@ -24,10 +25,16 @@ def create(args):
 
 
 def fetch_input(args):
-    if args['dayDir'] != os.getcwd().split('\\')[-1]:
-        if args['dayDir'] not in os.listdir():
-            os.mkdir(args['dayDir'])
-        os.chdir(args['dayDir'])
+    if sys.platform == 'linux':
+        if args['dayDir'] != os.getcwd().split('/')[-1]:
+            if args['dayDir'] not in os.listdir():
+                os.mkdir(args['dayDir'])
+            os.chdir(args['dayDir'])
+    else:
+        if args['dayDir'] != os.getcwd().split('\\')[-1]:
+            if args['dayDir'] not in os.listdir():
+                os.mkdir(args['dayDir'])
+            os.chdir(args['dayDir'])
 
     url = "https://adventofcode.com/2015/day/" + str(args['day']) + "/input"
     headers = {"user-agent": 
@@ -57,7 +64,7 @@ def main():
                         action='store_true',
                         dest='create',
                         help='Creates a folder with the current day, or with a specific day, if -d is used')
-    parser.add_argument('-d',
+    parser.add_argument('--day', '-d',
                         action='store',
                         dest='day',
                         help='Sets the day to x.')
