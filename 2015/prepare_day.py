@@ -5,7 +5,7 @@ import subprocess
 import requests
 import sys
 
-PY_TEMPLATE = """#!/usr/bin/env python3
+PY_TEMPLATE = """#!/usr/bin/python
 def main():
     with open('input', 'r') as fp:
         data = [x for x in fp.readlines()]
