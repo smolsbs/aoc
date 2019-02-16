@@ -1,80 +1,62 @@
 #!/usr/bin/env python3
-#
+import sys
 from collections import defaultdict
+import operator as op
+
+OPS = {"LSHIFT": op.lshift,
+        "RSHIFT": op.rshift,
+        "AND": op.and_,
+        "OR": op.or_}
+
+def op_equ(value):
+    return value
+
+def op_not(value):
+    return 0xffff - value
+
+def getOp(op):
+    return OPS[op]
+
+def memoize(f):
+    memo = {}
+    def checkMemo(queue, wire):
+        if wire not in memo:
+            memo[wire] = f(queue, wire)
+        return memo[wire]
+    return checkMemo
+
+@memoize
+def find_wire(queue, wire):
+    try:
+        return int(wire)
+    except ValueError:
+        pass
+    val = queue[wire]
+    if len(val) == 2:
+        return val[0](find_wire(queue, val[1]))
+    else:
+        return val[0](find_wire(queue, val[1]), find_wire(queue, val[2]) )
 
 def main():
-    ops = defaultdict(lambda: None)
-    with open('input', 'r') as fp:
-        queue = []
+    queue = defaultdict(list)
+
+    if len(sys.argv) == 2:
+        fname = sys.argv[1]
+    else:
+        fname = 'input'
+    with open(fname, 'r') as fp:
         for line in fp.read().split('\n'):
             a = line.split()
-            a.pop(-2)
-            aux = [word for word in a]
-            queue.append(aux)
+            if len(a) == 3:
+                queue[a[-1]] = (op_equ, a[0])
+            elif len(a) == 4:
+                queue[a[-1]] = (op_not, a[1])
+            else:
+                queue[a[-1]] = (getOp(a[1]), a[0], a[2])
 
-
-
-        
+    val = find_wire(queue, 'a')
+    print(val)
 
 if __name__ == '__main__':
     main()
 
-# !/usr/bin/python3
-
-# from collections import defaultdict
-# import operator
-
-# def read_graph(fname):
-#     graph = defaultdict(list)
-#     with open(fname) as filep:
-#         for line in filep.readlines():
-#             split = line.split()
-#             if len(split) == 3:
-#                 graph[split[-1]] = ("EQ", split[0])
-#             elif len(split) == 4:
-#                 graph[split[-1]] = (split[0], split[1])
-#             else:
-#                 graph[split[-1]] = (split[1], split[0], split[2])
-#     return graph
-
-# def op_eq(value):
-#     return value
-
-# def op_not(value):
-#     return ~value & 0xffff
-
-# OPERATIONS = {"EQ": op_eq,
-#               "NOT": op_not,
-#               "AND": operator.iand,
-#               "OR": operator.ior,
-#               "RSHIFT": operator.rshift,
-#               "LSHIFT": operator.lshift}
-
-# def memoize(f):
-#     memo = {}
-#     def helper(graph, key):
-#         if key not in memo:
-#             memo[key] = f(graph, key)
-#         return memo[key]
-#     return helper
-
-# @memoize
-# def find_key(graph, key):
-#     try:
-#         return int(key)
-#     except ValueError:
-#         pass
-#     value = graph[key]
-#     op = value[0]
-
-#     if len(value) == 2:
-#         return OPERATIONS[op](find_key(graph, value[1]))
-#     else:
-#         return OPERATIONS[op](find_key(graph, value[1]), find_key(graph, value[2]))
-
-# def main():
-#     graph = read_graph("../input")
-#     print(find_key(graph, 'a'))
-
-# if __name__ == "__main__":
-#     main()
