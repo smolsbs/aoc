@@ -1,65 +1,54 @@
 #!/usr/bin/python
-from PIL import Image, ImageDraw
 
-def createFrame(grid):
-    img = Image.new('RGB', (100, 100), (0, 0, 0))
-    draw = ImageDraw.Draw(img)
-    q = []
-    for line in range(100):
-        for elem in range(100):
-            if grid[line][elem] == 1:
-                q.append((elem, line))
-    draw.point(q, (255, 255, 255))
-    return img
+def animate(grid, n, frames):
+    _grid = grid
+    newGrid = [[0 for _ in range(n)] for _ in range(n)]
+    frame = 0
+    while(frame < frames):
+        for i in range(n):
+            for j in range(n):
+                value = getNeighbours(_grid, i, j)     
+                if _grid[i][j] == 1:
+                    if value == 2 or value == 3:
+                        newGrid[i][j] = 1
+                elif _grid[i][j] == 0:
+                    if value == 3:
+                        newGrid[i][j] = 1
+        _grid = newGrid
+        frame += 1
 
-
-def sumNeighbours(x, y, grid):
-    if y == 0:
-        if x == 0:
-            return sum(grid[y][x:x+2]) + sum(grid[y+1][x:x+2]) - grid[y][x]
-        else:
-            return sum(grid[y][x-1:x+2]) + sum(grid[y+1][x-1:x+2]) - grid[y][x]
-    elif y == 99:
-        if x == 0:
-            return sum(grid[y-1][x:x+2]) + sum(grid[y][x:x+2]) - grid[y][x]
-        else:
-            return sum(grid[y-1][x-1:x+2]) + sum(grid[y][x-1:x+2]) - grid[y][x]
-    else:
-        return sum(grid[y-1][x-1:x+2]) + sum(grid[y][x-1:x+2]) + sum(grid[y+1][x-1:x+2]) - grid[y][x]
+    return _grid
 
 
-def processLights(grid):
-    frames = []
-    newGrid = grid
-    for _ in range(100):
-        for line in range(100):
-            for row in range(100):
-                s = sumNeighbours(row, line, grid)
+def getNeighbours(grid, i, j, dist=1):
+    value = 0
 
-                if grid[line][row] == 1:
-                    if s not in [2,3]:
-                        newGrid[line][row] == 0
-                elif grid[line][row] == 0:
-                    if s == 3:
-                        newGrid[line][row] == 1
+    for line in grid[max(0, i-dist):i+dist+1]:
+        for e in line[max(0, j-dist):j+dist+1]:
+            value += e
 
-        grid = newGrid
-        frames.append(createFrame(grid))
-        print("frame {} done".format(_+1))
-    return (grid, frames)
+    return value - grid[i][j]
 
 
 def main():
     grid = []
     with open('input', 'r') as fp:
         for line in fp.read().split('\n'):
-            grid.append([1 if x == '#' else 0 for x in line])
+            a = []
+            for c in line:
+                if c == "#":
+                    a.append(1)
+                else:
+                    a.append(0)
+            grid.append(a)
+    
+    newGrid = animate(grid, len(grid), 100)
+    
+    total = 0
 
-    final, frames = processLights(grid)
-
-    frames[0].save('a.png', format='PNG')
-    frames[98].save('b.png', format='PNG')
-
+    for x in range(len(newGrid)):
+        total += sum(newGrid[x])
+    print(total)
 
 if __name__ == '__main__':
     main()
