@@ -1,53 +1,53 @@
 #!/usr/bin/python
 
-def animate(grid, n, frames):
-    _grid = grid
-    newGrid = [[0 for _ in range(n)] for _ in range(n)]
-    frame = 0
-    while(frame < frames):
-        for i in range(n):
-            for j in range(n):
-                value = getNeighbours(_grid, i, j)     
-                if _grid[i][j] == 1:
-                    if value == 2 or value == 3:
-                        newGrid[i][j] = 1
-                elif _grid[i][j] == 0:
-                    if value == 3:
-                        newGrid[i][j] = 1
-        _grid = newGrid
-        frame += 1
+def strToInt(c):
+    if c == '#':
+        return 1
+    else:
+        return 0
+    
 
-    return _grid
-
-
-def getNeighbours(grid, i, j, dist=1):
-    value = 0
-
-    for line in grid[max(0, i-dist):i+dist+1]:
-        for e in line[max(0, j-dist):j+dist+1]:
-            value += e
-
-    return value - grid[i][j]
+def getArround(grid, i, j):
+    state = 0
+    # print("%d %d" % (i, j))
+    for x in range(max(0, i-1), min(len(grid), i+2)):
+        # l = ''
+        for y in range(max(0, j-1), min(len(grid), j+2)):
+            # l += str(grid[x][y])
+            state += grid[x][y]
+        # print(l)
+    return state - grid[i][j]
 
 
 def main():
     grid = []
     with open('input', 'r') as fp:
         for line in fp.read().split('\n'):
-            a = []
-            for c in line:
-                if c == "#":
-                    a.append(1)
+            grid.append([strToInt(c) for c in line])
+    gridLen = len(grid)
+    frame = 0
+    
+    while frame < 100:
+        newGrid = [[0 for _ in range(gridLen)] for _ in range(gridLen)]
+        for x in range(gridLen):
+            for y in range(gridLen):
+                s = getArround(grid, x, y)
+                if (s == 2 or s == 3) and grid[x][y] == 1:
+                    newGrid[x][y] = 1
+                elif s == 3 and grid[x][y] == 0:
+                    newGrid[x][y] = 1
+                # enable this condition for part 2
+                # elif (x,y) in [(0,0), (0, gridLen-1), (gridLen-1, 0), (gridLen-1, gridLen-1)]:
+                #     newGrid[x][y] = 1
                 else:
-                    a.append(0)
-            grid.append(a)
-    
-    newGrid = animate(grid, len(grid), 100)
-    
-    total = 0
+                    newGrid[x][y] = 0
+        grid = newGrid
+        frame += 1
 
-    for x in range(len(newGrid)):
-        total += sum(newGrid[x])
+    total = 0
+    for line in grid:
+        total += sum(line)
+
     print(total)
 
 if __name__ == '__main__':
