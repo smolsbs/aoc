@@ -30,8 +30,7 @@ def main():
     for pat, replList in keys.items():
         brokenStrand = strand.split(pat)
         molecules.update(produceMolecules(brokenStrand, pat, replList))
-
-    print(sum(1 for c in molecules.values() if c == 1))
+    print(sum(1 for c in molecules.values()))
 
 if __name__ == '__main__':
     main()
