@@ -1,3 +1,5 @@
+#! python
+
 import os
 import argparse
 import datetime
@@ -5,10 +7,9 @@ import subprocess
 import requests
 import sys
 
-PY_TEMPLATE = """#!/usr/bin/python
+PY_TEMPLATE = """#! python
 def main():
-    with open('input', 'r') as fp:
-        data = [x for x in fp.readlines()]
+    pass
 
 if __name__ == '__main__':
     main()"""
