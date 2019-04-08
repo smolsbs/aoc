@@ -1,6 +1,8 @@
 */*/*/.vscode/*
 */*/csharp/bin/*
 */*/csharp/obj/*
+*/*/a.out
 tools/*
 config
 .vscode/*
+.vs/*
