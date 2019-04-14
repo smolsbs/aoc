@@ -14,7 +14,8 @@ def thing(secret):
         i +=1 
 
 def main():
-    secret = 'yzbqklnj'
+    with open('input') as fp:
+        secret = fp.read().strip()
     print(thing(secret))
     
 
