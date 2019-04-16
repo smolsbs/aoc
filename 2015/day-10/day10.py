@@ -1,4 +1,4 @@
-#!/usr/bin/env python3\
+#! python
 
 def look_say(inp):
     if type(inp) != str:

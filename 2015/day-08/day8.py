@@ -2,9 +2,9 @@
 
 def real_str_len(string, part1=False):
     string = list(string)
+    new_string = r''
     if part1:
         leng = 0
-        new_string = r''
         while string:
             c = string.pop(0)
             if c == '\\':
