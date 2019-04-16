@@ -9,34 +9,43 @@
 # - Zero or more child nodes (as specified in the header).
 # - One or more metadata entries (as specified in the header).
 
+def parser(data):
+    nChildren = data.pop(0)
+    nMetadata = data.pop(0)
+    checksum = []
+    value = []
+
+    for _ in range(nChildren):
+        aux, data = parser(data)
+        checksum += aux
+    
+    if nChildren == 0:
+        for _ in range(nMetadata):
+            meta = data.pop(0)
+            checksum.append(meta)
+
+    else:
+        for _ in range(nMetadata):
+            meta = data.pop(0)
+            # print(meta)
+            checksum.append(meta)
+    
+    if len(data) == None:
+        return checksum
+    return checksum, data
+
+
+
 def main():
-    # with open('sinput', 'r') as fp:
-    #     data = [int(x) for x in fp.read().split(' ')]
-    data = [2, 3, 0, 3, 10, 11, 12, 1, 1, 0, 1, 99, 2, 1, 1, 2]
-    max_len = len(data)
-    a = {'index': 0,
-        'metadata': 0}
-    while (a['index'] < len(data)):
-        a = node(data, a)
+    # fp = '2 3 0 3 10 11 12 1 1 0 1 99 2 1 1 2'
+    # data = list(map(int, fp.split(' ')))
+    with open('input', 'r') as fp:
+        data = list(map(int, fp.read().strip().split(' ')))
 
-    print(args['metadata'])
+    a = parser(data)
+
+    print(sum(a[0]))
         
-def node(data, args):
-    print(data)
-    n_childs = args['index']
-    n_meta = args['index'] + 1
-    args['index'] += 2
-    if n_childs > 0:
-        for child in range(n_childs):
-            args = node(data, args)
-    elif n_childs == 0:
-        for _ in range(n_meta):
-            args['metadata'] += data[args['index']]
-            args['index'] += 1
-    return args
-
-
-
 
 
 if __name__ == '__main__':
