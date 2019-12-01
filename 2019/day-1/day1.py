@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 def fuel(n):
-    return n // 3 - 2       # huh, guess n // 3 does the flood division, neat
+    return n // 3 - 2       # huh, guess n // 3 does the floor division, neat
 
 def main():
     with open('input', 'r') as fp:
