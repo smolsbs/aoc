@@ -1,13 +1,19 @@
-import os
+#!  /usr/bin/env python3
+
 import argparse
 import datetime
+import os
 import subprocess
+import sys
+
 import requests
 
 PY_TEMPLATE = """#!/usr/bin/env python3
+
+import AoCUtils
+
 def main():
-    with open('input', 'r') as fp:
-        data = [x for x in fp.readlines()]
+    data = AoCUtils.loadInput('input')
 
 if __name__ == '__main__':
     main()"""
@@ -21,6 +27,9 @@ def create(args):
     fp = open(fn, 'w')
     fp.write(PY_TEMPLATE)
     fp.close()
+
+    if sys.platform == 'linux':
+        subprocess.run(["chmod", "+x", fn])
 
 
 def fetch_input(args):
@@ -77,11 +86,11 @@ def main():
     if res.day is None:
         args['day'] = datetime.datetime.today().day
     else:
-        args['day'] = res.day
+        args['day'] = int(res.day)
     with open('config', 'r') as fp:
         args['cookie'] = {"session": fp.read().strip('\n')}
 
-    args['dayDir'] = 'day-' + str(args['day'])
+    args['dayDir'] = "day-{:02d}".format(args['day'])
 
     if args['create']:
         create(args)

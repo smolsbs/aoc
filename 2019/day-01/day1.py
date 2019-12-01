@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 
+import AoCUtils
+
 def fuel(n):
     return n // 3 - 2       # huh, guess n // 3 does the floor division, neat
 
 def main():
-    with open('input', 'r') as fp:
-        data = [int(x) for x in fp.readlines()]
+    data = AoCUtils.loadInput('input', int)
     p1 = 0
     p2 = 0
     for i in data:
