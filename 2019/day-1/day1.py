@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
-from math import floor
+def fuel(n):
+    return n // 3 - 2       # huh, guess n // 3 does the flood division, neat
 
 def main():
     with open('input', 'r') as fp:
@@ -14,11 +15,7 @@ def main():
             p2 += b
             b = fuel(b)
 
-    print("p1 = {}".format(p1))
-    print("p2 = {}".format(p2))
-
-def fuel(n):
-    return floor(n/3) - 2
+    print("p1 = {}\np2 = {}".format(p1, p2))
 
 
 if __name__ == '__main__':
