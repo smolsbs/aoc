@@ -2,6 +2,7 @@
 */*/csharp/bin/*
 */*/csharp/obj/*
 */*/a.out
+*/.vscode/*
 tools/*
 config
 .vscode/*
