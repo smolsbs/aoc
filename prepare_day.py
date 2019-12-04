@@ -22,12 +22,14 @@ def checkIfDirExists(dir, root=None, verbose=False):
         delim = '/'
     else:
         delim = '\\'
+    
     root = os.getcwd().split(delim)
     listDir = os.listdir()
     if dir == root[-1] or dir == root[-2] or (dir in listDir):
         return True
     else:
         os.mkdir(dir)
+        return False
 
 
 def create(args, verbose=False):
@@ -49,12 +51,10 @@ def create(args, verbose=False):
 
 
 def fetch_input(args, verbose=False):
-
-    checkIfDirExists(args['year'])
-    os.chdir(args['year'])
-    checkIfDirExists(args['dayDir'])
-    os.chdir(args['dayDir'])
-
+    if not checkIfDirExists(args['year']):
+        os.chdir(args['year'])
+    if not checkIfDirExists(args['dayDir']):
+        os.chdir(args['dayDir'])
     url = "https://adventofcode.com/{:s}/day/{:s}/input".format(args['year'], args['day'])
     headers = {"user-agent": 
                 "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"}
