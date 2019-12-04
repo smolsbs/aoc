@@ -46,9 +46,6 @@ def create(args, verbose=False):
     fp.write(PY_TEMPLATE)
     fp.close()
 
-    if sys.platform == 'linux':
-        os.chmod(fn, 755)
-
 
 def fetch_input(args, verbose=False):
     if not checkIfDirExists(args['year']):
