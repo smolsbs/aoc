@@ -11,7 +11,7 @@ def _getPoints(data):
     for line in data:
         seq.append(line.split(','))
 
-    # store every single point where any of the wires pass and it's lenght
+    # store every single point where any of the wires pass and its lenght
     points = defaultdict(lambda: None)
 
     # iterate over each wire to path out both of them
