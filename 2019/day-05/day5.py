@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import AoCUtils
-
+import time
 
 class IntMachine:
     def __init__(self, intcode):
@@ -15,6 +15,8 @@ class IntMachine:
     def reset(self, intcode):
         self._intcode = list(map(int, intcode.copy()))
         self._ip = 0
+        self._continue = True
+
 
     def run(self, id):
         self._id = id
@@ -39,7 +41,8 @@ class IntMachine:
 
             elif self.opcode == 99:
                 self.quit()
-
+        
+        return self._return
 
     def quit(self):
         self._continue = False
@@ -64,7 +67,8 @@ class IntMachine:
 
     def ret(self, pA):              # opcode 4
         if self.getMode(1, self.modeA) != 0:
-            print(self.getMode(1, self.modeA))
+            self._return = self.getMode(1, self.modeA)
+            # print(self.getMode(1, self.modeA))
         self._ip += 2
     
     def jit(self, pA, pB):          # opcode 5
@@ -95,11 +99,13 @@ class IntMachine:
 
 def main():
     data = AoCUtils.loadInput('input')[0].split(',')
+    start = time.time_ns()
 
     a = IntMachine(data)
-    a.run(5)
+    print("part1: ", a.run(1))
     a.reset(data)
-    a.run(5)
+    print("part2: ", a.run(5))
 
+    print("{}ms".format((time.time_ns() - start)/10**6 ))
 if __name__ == '__main__':
     main()
