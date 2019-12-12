@@ -1,3 +1,5 @@
+from re import findall
+
 
 def loadInput(inputFile, returnType=str):
     '''load and parses an aoc input file
@@ -10,3 +12,11 @@ def loadInput(inputFile, returnType=str):
 
     return data
 
+def getInts(inputFile):
+    '''load and parses an aoc input file into a list of ints
+    :param inputFile: filename for the input file'''
+    with open(inputFile, 'r') as fp:
+        data = []
+        for line in fp.read().strip().split('\n'):
+            data.append( findall(r'-?\d+', line) )
+    return data
