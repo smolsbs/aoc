@@ -123,13 +123,13 @@ def main():
     data = AoCUtils.loadInput('input')[0].split(',')
 
     p1_signals = permutations(range(5),5)
-    # p2_signals = permutations(range(5,10),5)
+    p2_signals = permutations(range(5,10),5)
 
     p1 = run(data, p1_signals)
-    # p2 = run(data, p2_signals, True)
+    p2 = run(data, p2_signals, True)
     
     print(p1)
-    # print(p2)
+    print(p2)
 
 if __name__ == '__main__':
     main()
