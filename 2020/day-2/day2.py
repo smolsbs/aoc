@@ -17,10 +17,13 @@ def main():
     part_2 = 0
 
     for line in data:
-        (l, u, c, pw) = findall(pattern, line)[0]
+        # (lower lim, upper lim, letter to check, password)
+        (l, u, c, pw) = findall(pattern, line)[0]   # regex module
+
+        # get number of ocurences for each char in the pw
         aux = Counter(pw)
         if aux[c] >= int(l) and aux[c] <= int(u):
-            part_1 +=1
+            part_1 += 1
             
         # using XOR to get either one or another
         if bool2int(c == pw[int(l)-1] ) ^ bool2int(c == pw[int(u)-1]):
