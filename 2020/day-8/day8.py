@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 from re import findall
-from time import sleep
 
 class Instrucs:
     @staticmethod
@@ -35,7 +34,7 @@ def run(data):
 
 
 def main():
-    with open('/storage/git-repos/aoc/2020/day-8/input', 'r') as fp:
+    with open('input', 'r') as fp:
         data = []
         jmp_nop_pos = []        # part 2
         pos = 0                 # part 2
