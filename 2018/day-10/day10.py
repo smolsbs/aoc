@@ -9,13 +9,17 @@ from PIL import Image, ImageDraw
 def main():
     with open('input', 'r') as fp:
         data = [x for x in fp.readlines()]
-    mkdir('img')
+    try:
+        mkdir('img')
+    except:
+        pass
     chdir('img')
     p_pos = defaultdict(lambda: [0, 0])
     p_vel = defaultdict(lambda: [0, 0])
     i = 0
     for point in data:
-        info = re.search(r"<(.\d{5}), (.\d{5}).*?<(.\d{1}), (.\d{1})", point)
+        info = re.search(r"<.*?(.\d{4,5}),.*?(.\d{4,5}).*?<(.\d{1}), (.\d{1})", point)
+        # print(info)
         p_pos[i][0], p_pos[i][1] = int(info.group(1)), int(info.group(2))
         p_vel[i][0], p_vel[i][1] = int(info.group(3)), int(info.group(4))
         i += 1
@@ -28,7 +32,7 @@ def main():
             p_pos[k][1] += p_vel[k][1]
 
         i += 1
-        if i > 10600:
+        if i > 10000:
             print_clouds(p_pos, i)
 
 def print_clouds(p_pos, i):
