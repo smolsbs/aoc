@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import aocUtils
+
 def part1(data):
     _increases = 0
     # set first value to curr_val
@@ -31,8 +33,10 @@ def part2(data):
     return f'part 2: {_increases}'
 
 def main():
-    with open('input', 'r') as fp:
-        data = [int(x) for x in fp.read().strip().split('\n')]
+
+    data = aocUtils.loadInput('input', int)
+    # with open('input', 'r') as fp:
+        # data = [int(x) for x in fp.read().strip().split('\n')]
 
     print(part1(data))
     print(part2(data))

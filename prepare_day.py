@@ -9,10 +9,10 @@ import requests
 
 PY_TEMPLATE = """#!/usr/bin/env python3
 
-import AoCUtils
+import aocUtils
 
 def main():
-    data = AoCUtils.loadInput('input')
+    data = aocUtils.loadInput('input')
 
 if __name__ == '__main__':
     main()"""

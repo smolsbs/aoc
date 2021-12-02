@@ -7,6 +7,4 @@ tools/*
 config
 .vscode/*
 .vs/*
-AoCUtils/__pycache__/__init__.cpython-37.pyc
-AoCUtils/__pycache__/utils.cpython-37.pyc
 aoc-workspace.code-workspace
