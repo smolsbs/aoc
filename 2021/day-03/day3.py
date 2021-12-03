@@ -2,9 +2,6 @@
 
 import aocUtils
 
-
-
-
 def main():
     data = aocUtils.loadInput('input')
     gamma = ''
@@ -20,8 +17,8 @@ def main():
             c_tot[v[i]] += 1
 
             # since we're using this for loop going through all nums
-            # check if they exists in the oxigen and carbon lists
-            # if yes count the digit for each bit criteria
+            # check if v exists in the oxigen and carbon lists
+            # if yes count the i-th digit for each bit criteria
             if v in oxigen:
                 c_O2[v[i]] += 1
             if v in carbon:
