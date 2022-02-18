@@ -15,7 +15,7 @@ def syntax_scoring(_syntax, pts_1, pts_2):
         - if false, set invalid to True, and add to pts_1 the value on PTS_INV
 
     - If after going through the string, the queue is not emtpy, create the remaing chunks,
-    calculate the appriate points for them and append to pts_2.
+    calculate the appropiate points for them and append to pts_2.
 
     Args:
         _syntax (str): line to check syntax
