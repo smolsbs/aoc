@@ -17,12 +17,12 @@ def grid_size(_points):
     return (min(xx), min(yy), max(xx), max(yy))
 
 # https://en.wikipedia.org/wiki/Line%E2%80%93line_intersection#Given_two_points_on_each_line
-def check_intersect(seg_1, seg_2): 
+def check_intersect(seg_1, seg_2):
     x1, x2 = seg_1[0]
     y1, y2 = seg_1[1]
     x3, x4 = seg_2[0]
     y3, y4 = seg_2[1]
-    
+
     t = ((x1 - x3)*(y3 - y4) - (y1-y3)*(x3-x4)) / ((x1-x2)*(y3-y4) - (y1-y2)*(x3-x4))
     u = ((x1 - x3)*(y1 - y2) - (y1-y3)*(x1-x2)) / ((x1-x2)*(y3-y4) - (y1-y2)*(x3-x4))
     if t >= 0 and t <= 1 and u >= 0 and u <= 1:
@@ -33,7 +33,6 @@ def check_intersect(seg_1, seg_2):
 
 def make_grid(dataset, lims):
     grid = np.zeros(lims, dtype=np.int8)
-
     for seg in dataset:
         x1, y1 = seg[0]
         x2, y2 = seg[1]
@@ -41,13 +40,32 @@ def make_grid(dataset, lims):
         if x1 == x2:
             for y in range(min(y1, y2), max(y1, y2)+1):
                 grid[y, x1] += 1
-                
         elif y1 == y2:
             for x in range(min(x1, x2), max(x1, x2)+1):
                 grid[y1, x] += 1
+        
+        else:
+            points = make_diag_points(seg)
+            for p in points:
+                grid[p[0], p[1]] += 1
+
     n = np.count_nonzero(grid > 1)
     return n
 
+def make_diag_points(seg):
+    x1, y1 = seg[0]
+    x2, y2 = seg[1]
+
+    if x1 < x2:
+        x_range = range(x1, x2+1)
+    else:
+        x_range = range(x1, x2-1, -1)
+    if y1 < y2:
+        y_range = range(y1, y2+1)
+    else:
+        y_range = range(y1, y2-1, -1)
+    
+    return list(zip(x_range, y_range))
 
 
 def main():
@@ -64,11 +82,12 @@ def main():
 
     xmin, ymin, xmax, ymax = grid_size(p1_lines)
 
+
     p1 = make_grid(p1_lines, (ymax+1,xmax+1))
-    # p2 = make_grid(lines, (ymax+1,xmax+1), True)
+    p2 = make_grid(lines, (ymax+1,xmax+1))
 
     print(f'part 1: {p1}')
-    # print(f'part 2: {p2}')
+    print(f'part 2: {p2}')
 
 if __name__ == '__main__':
     main()
