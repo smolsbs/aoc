@@ -7,4 +7,6 @@ tools/*
 config
 .vscode/*
 .vs/*
+aocUtils/aocUtils.egg-info/*
+aocUtils/aocUtils/__pycache__/*
 aoc-workspace.code-workspace
