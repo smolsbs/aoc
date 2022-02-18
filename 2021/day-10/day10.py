@@ -12,7 +12,7 @@ def syntax_scoring(_syntax, pts_1, pts_2):
     - If a closing chunk, compare if it's the pair to the last
     item in the queue.
         - if true, remove opening chunck from queue
-        - if false, set invalid to False, and add to pts_1 the value on PTS_INV
+        - if false, set invalid to True, and add to pts_1 the value on PTS_INV
 
     - If after going through the string, the queue is not emtpy, create the remaing chunks,
     calculate the appriate points for them and append to pts_2.
