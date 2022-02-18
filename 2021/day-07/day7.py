@@ -4,12 +4,12 @@ import aocUtils
 import numpy as np
 
 def part1(data):
-    goal_pos = np.int(np.median(data))
+    goal_pos = int(np.median(data))
     fuel = 0
     for point in data:
         fuel += np.abs(goal_pos - point)
 
-    return np.int(fuel)
+    return int(fuel)
 
 def part2(data):
     mean = np.mean(data)
@@ -25,7 +25,7 @@ def part2(data):
 
     k = sorted(costs, key=costs.get)[0]
     
-    return np.int(costs[k])
+    return int(costs[k])
 
 def main():
     data = list(map(int, aocUtils.getInts('input')[0]))
