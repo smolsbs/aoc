@@ -10,3 +10,5 @@ config
 aocUtils/aocUtils.egg-info/*
 aocUtils/aocUtils/__pycache__/*
 aoc-workspace.code-workspace
+CSharp/*/bin/*
+CSharp/*/obj/*
