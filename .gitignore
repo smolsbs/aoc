@@ -12,3 +12,5 @@ aocUtils/aocUtils/__pycache__/*
 aoc-workspace.code-workspace
 CSharp/*/bin/*
 CSharp/*/obj/*
+CSharp/*/*/bin/*
+CSharp(*/*/obj/*
