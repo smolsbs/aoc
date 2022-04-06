@@ -13,4 +13,4 @@ aoc-workspace.code-workspace
 CSharp/*/bin/*
 CSharp/*/obj/*
 CSharp/*/*/bin/*
-CSharp(*/*/obj/*
+CSharp/*/*/obj/*
