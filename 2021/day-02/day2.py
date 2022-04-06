@@ -5,8 +5,7 @@ import aocUtils
 def main():
     vals = {'forward': 0, 'up': 0, 'down': 0, 'aim': 0, 'depth2': 0}
     for val in aocUtils.loadInput('input'):
-        k,v = val.split(' ')
-        v = int(v)
+        k, v = list(map(lambda x: int(x) if x.isdigit() else x, val.split(' ')))
         vals[k] += v
         # part 2
         if k == 'up':
