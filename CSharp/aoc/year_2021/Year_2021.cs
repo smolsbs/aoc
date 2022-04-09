@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Year2021;
 public class y_2021{
     
-    public static void Day_1(string Path){
+    public static void Day1(string Path){
         int Counter = 0;
         int PrevValue;
         int[] UsrInput = File.ReadLines(Path)
@@ -35,7 +35,7 @@ public class y_2021{
         Console.WriteLine($"Part 2: {Counter}");
     }
 
-    public static void Day_2(String Path){
+    public static void Day2(String Path){
         Dictionary<string,int> Values = new Dictionary<string, int>();
         Values.Add("depth", 0);
         Values.Add("depth2", 0);
@@ -75,7 +75,7 @@ public class y_2021{
         Console.WriteLine($"Part 1: {Part1}\nPart 2: {Part2}");
     }
 
-    public static void Day_3(string Path){
+    public static void Day3(string Path){
         string[] usrIn = File.ReadLines(Path).Select(r => r).ToArray();
         var mid = usrIn.Length / 2;
         var max_len = usrIn[0].Length;
@@ -139,7 +139,7 @@ public class y_2021{
         return lifetimes.Sum();
     }
 
-    public static void Day_6(string Path){
+    public static void Day6(string Path){
     var usrIn = File.ReadLines(Path).First().Split(',').Select(r => int.Parse(r)).ToArray();
     
     long p1 = SimulateDay6(usrIn, 80);
