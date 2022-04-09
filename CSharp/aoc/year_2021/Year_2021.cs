@@ -123,10 +123,30 @@ public class y_2021{
 
     }
 
-    public static void Day_4(string Path){
+
+    private static long SimulateDay6(int[] usrIn, int days){
+        long[] lifetimes = new long[9];
+        foreach ( var p in usrIn){
+            lifetimes[p]++;
+        }  
+        for (var d = 0; d < days; d++){
+            var heaven = lifetimes[0];
+            for (var i=1; i < 9; i++)
+                    lifetimes[i-1] = lifetimes[i];
+                lifetimes[6] += heaven;
+                lifetimes[8] = heaven;
+        }
+        return lifetimes.Sum();
+    }
+
+    public static void Day_6(string Path){
+    var usrIn = File.ReadLines(Path).First().Split(',').Select(r => int.Parse(r)).ToArray();
     
-    
-        Console.WriteLine("HAHAHAHA no.");
+    long p1 = SimulateDay6(usrIn, 80);
+    long p2 = SimulateDay6(usrIn, 256);
+
+    Console.WriteLine($"Part 1: {p1}\nPart 2: {p2}");
+        
     }
 
 
