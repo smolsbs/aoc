@@ -14,3 +14,5 @@ CSharp/*/bin/*
 CSharp/*/obj/*
 CSharp/*/*/bin/*
 CSharp/*/*/obj/*
+rust/target/*
+rust/*/target/*
