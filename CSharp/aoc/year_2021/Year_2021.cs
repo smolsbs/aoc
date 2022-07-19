@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Collections.Generic;
 
 namespace Year2021;
@@ -149,12 +150,14 @@ public static class y_2021{
         
     }
 
-
     private static int DecodeDay8(string inputs, string outputs){
         string[] trueSig = new string[10];
 
-        var inptLookup = inputs.Split(' ').ToLookup(w => w.Length);
-        var outpt = outputs.Split(' ');
+        string[] inp = inputs.Split(new char[] {' '}, StringSplitOptions.RemoveEmptyEntries);
+        var inptLookup = inp.ToLookup(w => w.Length);
+
+        var outpt = outputs.Split(new char[] {' '}, StringSplitOptions.RemoveEmptyEntries);
+
         var segs5 = inptLookup[5].ToList();
         var segs6 = inptLookup[6].ToList();
 
@@ -166,25 +169,28 @@ public static class y_2021{
         trueSig[7] = inptLookup[3].First();
         trueSig[8] = inptLookup[7].First();
 
+
         // segments of length 6
-        trueSig[9] = segs6.First(w => trueSig[4].Contains(w));
+        trueSig[9] = segs6.First(w => w.All(c => trueSig[4].Contains(c)));
         segs6.Remove(trueSig[9]);
-        trueSig[0] = segs6.First(w => trueSig[1].Contains(w));
+        trueSig[0] = segs6.First(w => w.All(c => trueSig[1].Contains(c)) );
         segs6.Remove(trueSig[0]);
         trueSig[6] = segs6.First();
 
         // segments of length 5
-        trueSig[3] = segs5.First(w => trueSig[1].Contains(w));
-        segs5.Remove(trueSig[3]);
-
-        trueSig[5] = segs5.First(w => w.Contains(trueSig[6]));
+        trueSig[3] = segs5.First(w => w.All(c => trueSig[1].Contains(c)));
+        segs5.Remove(trueSig[3]);         
+        trueSig[5] = segs5.First(w => trueSig[6].All(c => w.Contains(c)));
         segs5.Remove(trueSig[5]);
         trueSig[2] = segs5.First();
 
-
+        // find from the decoded inputs the four integer output
         for (int i = 0; i < 4; i++){
+
             var hashOut = new HashSet<char>(outpt[i]);
+
             for (int j = 0; j < 10; j++){
+
                 var hashTrueSig = new HashSet<char>(trueSig[j]);
                 bool isEqual = new HashSet<char>(hashOut).SetEquals(hashTrueSig);
                 if (isEqual){
@@ -196,23 +202,25 @@ public static class y_2021{
 
         return decodedOutput.Aggregate((a, b) => a * 10 + b);
     }
+    
     public static void Day8(string Path){
         var usrIn = File.ReadLines(Path).Select(r => r).ToArray();
         int p1 = 0;
+        var rx = new Regex(@"(.*?) \| (.*?)", RegexOptions.Compiled);
         var uniques = new List<int> { 2, 3, 4, 7};
         int p2 = 0;
 
         foreach (string line in usrIn)
         {
-            string[] asdf = line.Split('|');
-            p1 += asdf[1].Split(' ').Count(w => uniques.Contains(w.Length));
-            p2 += DecodeDay8(asdf[0], asdf[1]);
+            string[] outIn = line.Split(new char[] { '|'}, StringSplitOptions.RemoveEmptyEntries);
+            p1 += outIn[1].Split(' ').Count(w => uniques.Contains(w.Length));
+            p2 += DecodeDay8(outIn[0], outIn[1]);
+            
         }
 
         Console.WriteLine($"Part 1: {p1}\nPart 2: {p2}");
 
     }
-
 
 }
 
