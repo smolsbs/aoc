@@ -3,8 +3,9 @@ using System.Linq;
 using System.Collections.Generic;
 
 namespace Year2021;
-public class y_2021{
-    
+
+public static class y_2021{
+
     public static void Day1(string Path){
         int Counter = 0;
         int PrevValue;
@@ -123,7 +124,6 @@ public class y_2021{
 
     }
 
-
     private static long SimulateDay6(int[] usrIn, int days){
         long[] lifetimes = new long[9];
         foreach ( var p in usrIn){
@@ -140,15 +140,78 @@ public class y_2021{
     }
 
     public static void Day6(string Path){
-    var usrIn = File.ReadLines(Path).First().Split(',').Select(r => int.Parse(r)).ToArray();
-    
-    long p1 = SimulateDay6(usrIn, 80);
-    long p2 = SimulateDay6(usrIn, 256);
+        var usrIn = File.ReadLines(Path).First().Split(',').Select(r => int.Parse(r)).ToArray();
+        
+        long p1 = SimulateDay6(usrIn, 80);
+        long p2 = SimulateDay6(usrIn, 256);
 
-    Console.WriteLine($"Part 1: {p1}\nPart 2: {p2}");
+        Console.WriteLine($"Part 1: {p1}\nPart 2: {p2}");
         
     }
 
+
+    private static int DecodeDay8(string inputs, string outputs){
+        string[] trueSig = new string[10];
+
+        var inptLookup = inputs.Split(' ').ToLookup(w => w.Length);
+        var outpt = outputs.Split(' ');
+        var segs5 = inptLookup[5].ToList();
+        var segs6 = inptLookup[6].ToList();
+
+        int[] decodedOutput = new int[4];
+
+        // setting up unique numbers
+        trueSig[1] = inptLookup[2].First();
+        trueSig[4] = inptLookup[4].First();
+        trueSig[7] = inptLookup[3].First();
+        trueSig[8] = inptLookup[7].First();
+
+        // segments of length 6
+        trueSig[9] = segs6.First(w => trueSig[4].Contains(w));
+        segs6.Remove(trueSig[9]);
+        trueSig[0] = segs6.First(w => trueSig[1].Contains(w));
+        segs6.Remove(trueSig[0]);
+        trueSig[6] = segs6.First();
+
+        // segments of length 5
+        trueSig[3] = segs5.First(w => trueSig[1].Contains(w));
+        segs5.Remove(trueSig[3]);
+
+        trueSig[5] = segs5.First(w => w.Contains(trueSig[6]));
+        segs5.Remove(trueSig[5]);
+        trueSig[2] = segs5.First();
+
+
+        for (int i = 0; i < 4; i++){
+            var hashOut = new HashSet<char>(outpt[i]);
+            for (int j = 0; j < 10; j++){
+                var hashTrueSig = new HashSet<char>(trueSig[j]);
+                bool isEqual = new HashSet<char>(hashOut).SetEquals(hashTrueSig);
+                if (isEqual){
+                    decodedOutput[i] = j;
+                    break;
+                }
+            }
+        }
+
+        return decodedOutput.Aggregate((a, b) => a * 10 + b);
+    }
+    public static void Day8(string Path){
+        var usrIn = File.ReadLines(Path).Select(r => r).ToArray();
+        int p1 = 0;
+        var uniques = new List<int> { 2, 3, 4, 7};
+        int p2 = 0;
+
+        foreach (string line in usrIn)
+        {
+            string[] asdf = line.Split('|');
+            p1 += asdf[1].Split(' ').Count(w => uniques.Contains(w.Length));
+            p2 += DecodeDay8(asdf[0], asdf[1]);
+        }
+
+        Console.WriteLine($"Part 1: {p1}\nPart 2: {p2}");
+
+    }
 
 
 }
