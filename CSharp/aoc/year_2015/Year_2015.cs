@@ -12,10 +12,6 @@ using Superpower.Model;
 namespace Year2015;
 public static class y_2015
 {
-
-    private enum States { Off, On, Toggle };
-    [Flags]
-    private enum Niceness { Def = 0, Vowel = 2, Double = 4, Bad = 8, Repeats = 16, Pair = 32 };
     public static void Day1(string Path)
     {
         string usrIn = File.ReadAllText(Path);
@@ -154,7 +150,8 @@ public static class y_2015
         Console.WriteLine($"Part 1: {p1}\nPart 2: {p2}");
     }
 
-
+    [Flags]
+    private enum Niceness { Def = 0, Vowel = 2, Double = 4, Bad = 8, Repeats = 16, Pair = 32 };
     private static bool d5P1(string line)
     {
         var badStrings = new List<string> { "ab", "cd", "pq", "xy" };
@@ -221,7 +218,7 @@ public static class y_2015
         Console.WriteLine($"Part 1: {p1}\nPart 2: {p2}");
 
     }
-
+    private enum States { Off, On, Toggle };
     public static void Day6(string Path)
     {
         string[] usrIn = File.ReadAllLines(Path).Select(l => l).ToArray();
