@@ -295,6 +295,11 @@ public static class y_2015
 
 
     private enum Ops { And, Or, Lshift, Rshift };
+
+
+    private static void performOp(Ops op, int val, int val2 = 0)
+    {
+    }
     public static void Day7(string Path)
     {
         string[] usrIn = File.ReadAllLines(Path).ToArray();
@@ -302,4 +307,172 @@ public static class y_2015
     }
 
 
+
+    private static int d8P1(string line)
+    {
+        int stringLit = line.Length;
+        int strSize = 0;
+        int i = 1;
+        char c = line[1];
+
+        while (c != '"')
+        {
+            switch (c)
+            {
+                case '\\':
+                    if (line[i + 1] == 'x') i += 4;
+                    else i += 2;
+                    strSize++;
+                    break;
+
+                default:
+                    i++;
+                    strSize++;
+                    break;
+            }
+            c = line[i];
+        }
+        return stringLit - strSize;
+    }
+
+    private static int d8P2(string line)
+    {
+        int stringLit = line.Length;
+        string newString = "\"";
+
+        foreach (char c in line)
+        {
+            switch (c)
+            {
+                case '"':
+                    newString += "\\\"";
+                    break;
+
+                case '\\':
+                    newString += "\\\\";
+                    break;
+
+                default:
+                    newString += c;
+                    break;
+            }
+        }
+        newString += "\"";
+        return newString.Length - stringLit;
+    }
+
+    public static void Day8(string Path)
+    {
+        string[] usrIn = File.ReadAllLines(Path).ToArray();
+
+
+        int p1 = 0;
+        int p2 = 0;
+
+        foreach (string line in usrIn)
+        {
+            p1 += d8P1(line);
+            p2 += d8P2(line);
+        }
+        Console.WriteLine($"Part 1: {p1}\nPart 2: {p2}");
+    }
+
+    public static void Day9(string Path)
+    {
+        string[] usrIn = File.ReadAllLines(Path).ToArray();
+        int p1 = 0;
+        int p2 = 0;
+
+        List<City> citiesList = new();
+        City? rootCity = default;
+
+        TextParser<(string inCity, string outCity, int dist)> parser =
+            (from City1 in Character.Letter.AtLeastOnce()
+             from _ in Span.EqualTo(" to ")
+             from City2 in Character.Letter.AtLeastOnce()
+             from __ in Span.EqualTo(" = ")
+             from distance in Character.Digit.AtLeastOnce()
+             select (new string(City1), new String(City2), int.Parse(distance))
+            );
+
+        foreach (string line in usrIn)
+        {
+            var (incity, outcity, dist) = parser.Parse(line);
+            if (rootCity == null) rootCity = new City(incity);
+            citiesList.Add(rootCity.addCity(incity, new City(outcity), dist)!);
+        }
+
+        citiesList.Add(rootCity!);
+        List<City> things = new();
+
+
+        Console.WriteLine(citiesList.Contains(rootCity));
+
+        // var asdf = rootCity.traverseTo(things, citiesList.First(v => v.name == "Arbre"));
+
+        // Console.WriteLine(string.Join(" | ", things));
+
+
+
+        Console.WriteLine($"Part 1: {p1}\nPart 2: {p2}");
+    }
+}
+
+class City : IEquatable<City>
+{
+    public string name;
+    public record Connection(City City, int Distance);
+    public List<Connection> connections;
+
+
+    public City(string name)
+    {
+        this.name = name;
+        connections = new();
+    }
+
+    public City addCity(City inCity, int distance)
+    {
+        connections.Add(new(inCity, distance));
+        inCity.connections.Add(new(this, distance));
+        return inCity; //and that
+    }
+
+    public City? addCity(string inCity, City outCity, int distance)
+    {
+        if (name == inCity) return addCity(outCity, distance);
+
+        foreach (var (city, _) in connections)
+        {
+            var aux = city.addCity(inCity, outCity, distance);
+            if (aux != null) return aux;
+        }
+
+        return null;
+    }
+
+    public int traverseTo(List<City> visitedCities, City destinationCity)
+    {
+        visitedCities.Add(this);
+        if (name == destinationCity.name) return 0;
+        foreach (Connection conn in connections)
+        {
+            if (visitedCities.Contains(conn.City)) continue;
+            var aux = conn.City.traverseTo(visitedCities, destinationCity);
+            if (aux != -1) return aux + conn.Distance;
+        }
+
+        return -1;
+    }
+
+    public bool Equals(City? other)
+    {
+        if (other == null) return false;
+        return name == other.name;
+    }
+
+    public override string ToString()
+    {
+        return name;
+    }
 }
