@@ -293,12 +293,11 @@ public static class y_2015
         p2 = gridP2.Cast<int>().Sum();
 
         Console.WriteLine($"Part 1: {p1}\nPart 2: {p2}");
-        // Your puzzle answer was 377891.
 
     }
 
 
-    private enum Ops {And, Or, Lshift, Rshift};
+    private enum Ops { And, Or, Lshift, Rshift };
     public static void Day7(string Path)
     {
         string[] usrIn = File.ReadAllLines(Path).ToArray();
