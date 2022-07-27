@@ -21,31 +21,29 @@ public class Day9
 
         foreach (string line in usrIn)
         {
-            var (incity, outcity, dist) = parser.Parse(line);
-            //if (rootCity == null) rootCity = new City(incity);
-            var curCity = citiesList.FirstOrDefault(c => c.name == incity);
+            var (inCity, outCity, dist) = parser.Parse(line);
+            var curCity = citiesList.FirstOrDefault(c => c.name == inCity);
 
             if (curCity == null)
             {
-                curCity = new City(incity);
+                curCity = new City(inCity);
                 citiesList.Add(curCity);
             }
-            var newCity = citiesList.FirstOrDefault(c => c.name == outcity);
+            var newCity = citiesList.FirstOrDefault(c => c.name == outCity);
             if (newCity == null)
             {
-                newCity = new City(outcity);
+                newCity = new City(outCity);
                 citiesList.Add(newCity);
             }
             curCity.addCity(newCity, dist);
 
-            //citiesList.Add(rootCity.addCity(incity, new City(outcity), dist)!);
         }
 
-
-
-        (p1, p2) = City.FindShortest(citiesList);
+        (p1, p2) = City.FindMinMax(citiesList);
 
 
         Console.WriteLine($"Part 1: {p1}\nPart 2: {p2}");
     }
 }
+
+
