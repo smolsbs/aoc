@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
@@ -234,8 +235,10 @@ public static class Utils
         return value.All(m => source.Contains(m));
     }
 
-    public static bool Match(this string value1, string value2){
-        if (value1.Length != value2.Length){
+    public static bool Match(this string value1, string value2)
+    {
+        if (value1.Length != value2.Length)
+        {
             return false;
         }
 
