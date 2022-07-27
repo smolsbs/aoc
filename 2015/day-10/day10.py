@@ -1,29 +1,34 @@
 #! python
 
-def look_say(inp):
-    if type(inp) != str:
-        inp = str(inp)
-    new_inp = []
-    ch = inp[0]
-    l = 1
-    for i in range(1, len(inp)):
-        if inp[i] == ch:
-            l += 1
-        if i != ch:
-            new_inp += (str(l) + inp[i])
-            l = 1
-        if i == len(inp):
-            new_inp += (str(l) + inp[i])
-    return ''.join(new_inp)
 
 
-def main():
-    inp = str(1113122113)
-    for _ in range(40):
-        print("i: {}\t len:{}".format(_, len(inp)))
-        inp = look_say(inp)
-    print(len(inp))
+def run(values: str, runs=50):
+    run = values
+    for j in range(runs):
+        nextRun = ""
+        v = 1
+        lastChar = run[0]
+        for i in range(1, len(run)):
+            c = run[i]
+            if c == lastChar:
+                v += 1
+            else:
+                nextRun += f"{v}{lastChar}"
+                v = 1
+            lastChar = c
+        nextRun += f"{v}{c}"
+        run = nextRun
+
+        if j == 39:
+            p1 = len(run)
+        if j == 49:
+            p2 = len(run)
+
+    return (p1, p2)
+
 
 if __name__ == '__main__':
-    # print(look_say('1211'))
-    main()
+
+    p1, p2 = run("1113122113")
+
+    print(f"Part 1: {p1}\nPart 2: {p2}")
