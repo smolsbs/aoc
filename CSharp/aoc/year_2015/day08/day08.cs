@@ -3,7 +3,9 @@ namespace Year2015.Day8;
 public class Day8
 {
     private static int d8P1(string line)
-    {
+    {   
+
+        // ""
         int stringLit = line.Length;
         int strSize = 0;
         int i = 1;
