@@ -1,5 +1,16 @@
-﻿using Year2015;
-using Year2021;
+﻿global using System;
+global using System.IO;
+global using System.Linq;
+global using System.Text.RegularExpressions;
+global using System.Security.Cryptography;
+global using System.Collections.Generic;
+global using Superpower;
+global using Superpower.Parsers;
+global using Superpower.Model;
+
+using Year2015.Day1;
+using Year2015.Day2;
+using Year2015.Day3;
 
 public class AdventOfCode
 {
@@ -7,20 +18,12 @@ public class AdventOfCode
     public static void Main()
     {
 
-        // y_2015.Day1("./year_2015/day01.in"); // Done
-        // y_2015.Day2("./year_2015/day02.in"); // Done
-        // y_2015.Day3("./year_2015/day03.in"); // Done
-        // y_2015.Day4("./year_2015/day04.in"); // Done
-        // y_2015.Day5("./year_2015/day05.in"); // Done
-        // y_2015.Day6("./year_2015/day06.in"); // Done
-        // y_2015.Day7("./year_2015/day07.in"); 
-        // y_2015.Day8("./year_2015/day08.in");  // Done
-        y_2015.Day9("./year_2015/day09.in");
+        Day3.run("./year_2015/day03/day03.in");
 
 
 
 
-        // y_2021.Day1("./year_2021/day01.in");
+        // y_2021.Day1();
         // y_2021.Day2("./year_2021/day02.in");
         // y_2021.Day3("./year_2021/day03.in");
         // y_2021.Day6("./year_2021/day06.in");
