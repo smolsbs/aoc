@@ -31,16 +31,19 @@ public class Day14
         for (int _ = 0; _ < time; _++)
         {
             foreach (string name in names)
-            {
                 reindeers.First(c => c.Name == name).Tick();
-            }
+
+            reindeers
+                .Where(v => v.Distance == reindeers.Max(x => x.Distance))
+                .First()
+                .Points++;
         }
 
         int p1 = reindeers.Max(v => v.Distance);
-        int p2 = 0;
+        int p2 = reindeers.Max(v => v.Points);
+
         Console.WriteLine($"Part 1: {p1}\nPart 2: {p2}");
     }
-
 }
 
 
@@ -51,6 +54,7 @@ public class Reindeer
     public int Duration;
     public int Rest;
     public int Distance = 0;
+    public int Points = 0;
 
     bool resting = false;
     int timeToNextState;
