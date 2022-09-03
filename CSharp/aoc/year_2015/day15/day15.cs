@@ -1,5 +1,3 @@
-using Google.OrTools.LinearSolver;
-
 namespace Year2015.Day15;
 
 public class Day15
