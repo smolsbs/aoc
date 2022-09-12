@@ -17,6 +17,7 @@ using Year2015.Day14;
 using Year2015.Day15;
 using Year2015.Day16;
 using Year2015.Day17;
+using Year2015.Day18;
 using Year2015.Day2;
 using Year2015.Day3;
 
@@ -34,6 +35,7 @@ public class AdventOfCode
         // Day14.Run("./year_2015/day14/day14.in");
         // Day15.Run("./year_2015/day15/day15.in");
         // Day16.Run("./year_2015/day16/day16.in");
-        Day17.Run("./year_2015/day17/day17.in");
+        // Day17.Run("./year_2015/day17/day17.in");
+        Day18.Run("./year_2015/day18/day18.in");
     }
 }
