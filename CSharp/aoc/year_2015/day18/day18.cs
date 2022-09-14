@@ -2,8 +2,7 @@ namespace Year2015.Day18;
 
 public class Day18
 {
-    private static int MAX_COL = 100;
-    private static int MAX_ROW = 100;
+    private static int MSIZE = 100;
 
     private static void PrintGrid(int[] grid)
     {
@@ -19,6 +18,7 @@ public class Day18
             line += $"{grid[i]} ";
             i++;
         }
+        Console.WriteLine(line);
     }
 
     private static int GetOnValues(int[] grid)
@@ -26,54 +26,59 @@ public class Day18
         return grid.Count(v => v == 1);
     }
 
-    private static int[] Step(int[] grid, bool p2 = false)
+    private static int DoWhat(int[] grid, (int, int) idx)
     {
-        int[] newStates = new int[(MAX_COL * MAX_ROW)];
-        for (int i = 0; i < MAX_ROW; i++)
+        (int r, int c) = idx;
+        int val = GetNeighbours(grid, idx);
+        int state = grid[r * MSIZE + c];
+        switch (state)
         {
-            for (int j = 0; j < MAX_COL; j++)
+            case 1:
+                if (val == 2 || val == 3)
+                    return 1;
+                else
+                    return 0;
+            default:
+                if (val == 3)
+                    return 1;
+                else
+                    return 0;
+        }
+    }
+
+    private static (int[], int[]) Step(int[] grid, int[] grid2)
+    {
+        int[] statesP1 = new int[(MSIZE * MSIZE)];
+        int[] statesP2 = new int[(MSIZE * MSIZE)];
+        for (int i = 0; i < MSIZE; i++)
+        {
+            for (int j = 0; j < MSIZE; j++)
             {
-                int val = GetNeighbours(grid, (i, j));
-                switch (grid[i * MAX_ROW + j])
-                {
-                    case 1:
-                        if (val == 2 || val == 3)
-                            newStates[i * MAX_ROW + j] = 1;
-                        else
-                            newStates[i * MAX_ROW + j] = 0;
-                        break;
-                    case 0:
-                        if (val == 3)
-                            newStates[i * MAX_ROW + j] = 1;
-                        else
-                            newStates[i * MAX_ROW + j] = 0;
-                        break;
-                }
+                statesP1[i * MSIZE + j] = DoWhat(grid, (i, j));
+                statesP2[i * MSIZE + j] = DoWhat(grid2, (i, j));
+
             }
         }
 
-        if (p2)
-        {
-            newStates[0] = 1;
-            newStates[MAX_COL - 1] = 1;
-            newStates[(MAX_ROW - 2) * MAX_ROW] = 1;
-            newStates[(MAX_ROW - 1) * MAX_ROW - 1] = 1;
-        }
+        statesP2[0] = 1;
+        statesP2[MSIZE - 1] = 1;
+        statesP2[(MSIZE - 1) * MSIZE] = 1;
+        statesP2[(MSIZE - 1) * MSIZE + MSIZE - 1] = 1;
 
-        return newStates;
+        return (statesP1, statesP2);
     }
 
     private static int GetNeighbours(int[] grid, (int, int) idx)
     {
         (int r, int c) = idx;
         int sum = 0;
-        for (int i = Math.Max(0, r - 1); i <= Math.Min(MAX_ROW - 1, r + 1); i++)
+        for (int i = Math.Max(0, r - 1); i <= Math.Min(MSIZE - 1, r + 1); i++)
         {
-            for (int j = Math.Max(0, c - 1); j <= Math.Min(MAX_COL - 1, c + 1); j++)
+            for (int j = Math.Max(0, c - 1); j <= Math.Min(MSIZE - 1, c + 1); j++)
             {
                 if ((i, j) == (r, c))
                     continue;
-                sum += grid[i * MAX_ROW + j];
+                sum += grid[i * MSIZE + j];
             }
         }
         return sum;
@@ -81,8 +86,8 @@ public class Day18
 
     public static void Run(string Path)
     {
-        int[] usrIn = new int[(MAX_COL * MAX_ROW)];
-        int[] usrIn2 = new int[(MAX_COL * MAX_ROW)];
+        int[] usrIn = new int[(MSIZE * MSIZE)];
+        int[] usrIn2 = new int[(MSIZE * MSIZE)];
 
         int i = 0;
         foreach (string line in File.ReadAllLines(Path))
@@ -94,14 +99,14 @@ public class Day18
 
         usrIn.CopyTo(usrIn2, 0);
         usrIn2[0] = 1;
-        usrIn2[MAX_COL - 1] = 1;
-        usrIn2[(MAX_ROW - 2) * MAX_ROW] = 1;
-        usrIn2[(MAX_ROW - 1) * MAX_ROW - 1] = 1;
+        usrIn2[MSIZE - 1] = 1;
+        usrIn2[(MSIZE - 1) * MSIZE] = 1;
+        usrIn2[(MSIZE - 1) * MSIZE + MSIZE - 1] = 1;
 
         for (int step = 0; step < 100; step++)
         {
-            Step(usrIn).CopyTo(usrIn, 0);
-            Step(usrIn2, true).CopyTo(usrIn2, 0);
+            (usrIn, usrIn2) = Step(usrIn, usrIn2);
+
         }
 
         int p1 = GetOnValues(usrIn);
