@@ -12,12 +12,19 @@ YEAR = 2022
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-d', action='store', required=True, type=int, dest='day')
+    parser.add_argument('-y', action='store', required=True, type=int, dest='year')
 
     args = parser.parse_args()
-    module_path = f"{YEAR}.day-{args.day:02d}.day{args.day}"
+
+    if args.year:
+        year = args.year
+    else:
+        year = YEAR
+
+    module_path = f"{year}.day-{args.day:02d}.day{args.day}"
 
     run_day = importlib.import_module(module_path)
-    _path = f"{os.getcwd()}/{YEAR}/day-{args.day:02d}"
+    _path = f"{os.getcwd()}/{year}/day-{args.day:02d}"
     start = time.time_ns()
     run_day.run(_path)
     stop = (time.time_ns() - start) / 10**3
@@ -25,10 +32,5 @@ def main():
 
 
 if __name__ == '__main__':
-    # run_day = importlib.import_module('2022.day-01.day1')
-    #
-    # run_day.run()
-
     main()
-
 
