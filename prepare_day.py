@@ -7,12 +7,14 @@ import sys
 
 import requests
 
+ROOT_DIR = os.getcwd()
+
 PY_TEMPLATE = """#!/usr/bin/env python3
 
 import aocUtils
 
-def main():
-    data = aocUtils.loadInput('input')
+def run(path):
+    data = aocUtils.loadInput(f"{path}/input)
 
     p1 = None
     p2 = None
@@ -20,30 +22,23 @@ def main():
     print(f'part1: {p1}')
     print(f'part2: {p2}')
 
-if __name__ == '__main__':
-    main()"""
+"""
 
-def checkIfDirExists(dir, root=None, verbose=False):
+def check_if_dir_exists(path):
     if sys.platform == 'linux':
         delim = '/'
     else:
         delim = '\\'
-    
-    root = os.getcwd().split(delim)
-    listDir = os.listdir()
-    if dir == root[-1] or dir == root[-2] or (dir in listDir):
-        return True
-    else:
-        os.mkdir(dir)
-        return False
 
+    _path = f"{ROOT_DIR}/{path}"
+
+    if not os.path.exists(_path):
+        os.makedirs(_path)
 
 def create(args, verbose=False):
-    
-    checkIfDirExists(args['year'])
-    os.chdir(args['year'])
-    checkIfDirExists(args['dayDir'])
-    os.chdir(args['dayDir'])
+    _path = f"{ROOT_DIR}/{args['year']}/{args['day']}"
+    check_if_dir_exists(_path)
+    os.chdir(_path)
 
     open('README.md', 'w').close()
     open('input', 'w').close()
@@ -54,13 +49,12 @@ def create(args, verbose=False):
 
 
 def fetch_input(args, verbose=False):
-    if not checkIfDirExists(args['year']):
-        os.chdir(args['year'])
-    if not checkIfDirExists(args['dayDir']):
-        os.chdir(args['dayDir'])
+    _path = f"{ROOT_DIR}/{args['year']}/{args['day']}"
+    check_if_dir_exists(_path)
+    os.chdir(_path)
+
     url = "https://adventofcode.com/{:s}/day/{:s}/input".format(args['year'], args['day'])
-    headers = {"user-agent": 
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"}
+    headers = {"user-agent": "Mozilla/5.0 (X11; Linux x86_64; rv:107.0) Gecko/20100101 Firefox/107.0"}
     req = requests.get(url, stream=True, headers=headers, cookies=args['cookie'])
     req.raise_for_status()
 
@@ -79,9 +73,7 @@ def str2bool(v):
 
 
 def main():
-
     parser = argparse.ArgumentParser()
-
     parser.add_argument('--create', '-c',
                         action='store_true',
                         dest='create',
@@ -104,8 +96,7 @@ def main():
                         help='Sets the year of the event. Defaults to the current year.')
     res = parser.parse_args()
     
-    args = {'root': os.getcwd(),
-            'create': res.create,
+    args = {'create': res.create,
             'fetch': res.fetch,
             'curAdr': os.getcwd()}
 
@@ -118,12 +109,10 @@ def main():
         args['year'] = str(datetime.datetime.today().year)
     else:
         args['year'] = res.year
-    
-    
+
     with open('config', 'r') as fp:
         args['cookie'] = {"session": fp.read().strip('\n')}
 
-    args['dayDir'] = "day-{:02d}".format(int(args['day']))
     if args['create']:
         create(args)
 
