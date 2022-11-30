@@ -8,8 +8,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Combinatorics" Version="2.0.0"/>
-        <PackageReference Include="Superpower" Version="3.0.0"/>
+        <PackageReference Include="Combinatorics" Version="2.0.0" />
+        <PackageReference Include="Superpower" Version="3.0.0" />
     </ItemGroup>
 
 
