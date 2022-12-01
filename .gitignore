@@ -1,16 +1,9 @@
-*/*/csharp/bin/*
-*/*/csharp/obj/*
-*/*/a.out
 tools/*
 config
 */__pycache__
 */*/__pycache__
 aocUtils/aocUtils.egg-info/*
 aocUtils/aocUtils/__pycache__/*
-CSharp/*/bin/*
-CSharp/*/obj/*
-CSharp/*/*/bin/*
-CSharp/*/*/obj/*
 
 # Created by https://www.toptal.com/developers/gitignore/api/pycharm,visualstudiocode
 # Edit at https://www.toptal.com/developers/gitignore?templates=pycharm,visualstudiocode
