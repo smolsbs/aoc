@@ -14,7 +14,7 @@ PY_TEMPLATE = """#!/usr/bin/env python3
 import aocUtils
 
 def run(path):
-    data = aocUtils.loadInput(f"{path}/input)
+    data = aocUtils.loadInput(f"{path}/input")
 
     p1 = None
     p2 = None
@@ -25,18 +25,12 @@ def run(path):
 """
 
 def check_if_dir_exists(path):
-    if sys.platform == 'linux':
-        delim = '/'
-    else:
-        delim = '\\'
-
-    _path = f"{ROOT_DIR}/{path}"
-
-    if not os.path.exists(_path):
-        os.makedirs(_path)
+    if not os.path.exists(path):
+        os.makedirs(path)
 
 def create(args, verbose=False):
-    _path = f"{ROOT_DIR}/{args['year']}/{args['day']}"
+    _path = f"{ROOT_DIR}/{args['year']}/day-{args['day']:02d}"
+    print(_path)
     check_if_dir_exists(_path)
     os.chdir(_path)
 
@@ -49,11 +43,11 @@ def create(args, verbose=False):
 
 
 def fetch_input(args, verbose=False):
-    _path = f"{ROOT_DIR}/{args['year']}/{args['day']}"
+    _path = f"{ROOT_DIR}/{args['year']}/day-{args['day']:02d}"
     check_if_dir_exists(_path)
     os.chdir(_path)
 
-    url = "https://adventofcode.com/{:s}/day/{:s}/input".format(args['year'], args['day'])
+    url = f"https://adventofcode.com/{args['year']}/day/{args['day']}/input"
     headers = {"user-agent": "Mozilla/5.0 (X11; Linux x86_64; rv:107.0) Gecko/20100101 Firefox/107.0"}
     req = requests.get(url, stream=True, headers=headers, cookies=args['cookie'])
     req.raise_for_status()
@@ -81,7 +75,7 @@ def main():
     parser.add_argument('-d',
                         action='store',
                         dest='day',
-                        type=str,
+                        type=int,
                         help='Sets the day to x.')
     parser.add_argument('-f', '--fetch',
                         action='store',
@@ -92,21 +86,21 @@ def main():
     parser.add_argument('-y', '--year',
                         action='store',
                         dest='year',
-                        type=str,
+                        type=int,
                         help='Sets the year of the event. Defaults to the current year.')
     res = parser.parse_args()
-    
+
     args = {'create': res.create,
             'fetch': res.fetch,
             'curAdr': os.getcwd()}
 
     if res.day is None:
-        args['day'] = str(datetime.datetime.today().day)
+        args['day'] = int(datetime.datetime.today().day)
     else:
         args['day'] = res.day
 
     if res.year is None:
-        args['year'] = str(datetime.datetime.today().year)
+        args['year'] = int(datetime.datetime.today().year)
     else:
         args['year'] = res.year
 
