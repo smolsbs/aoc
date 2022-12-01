@@ -12,7 +12,7 @@ YEAR = 2022
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-d', action='store', required=True, type=int, dest='day')
-    parser.add_argument('-y', action='store', required=True, type=int, dest='year')
+    parser.add_argument('-y', action='store', type=int, dest='year')
 
     args = parser.parse_args()
 
