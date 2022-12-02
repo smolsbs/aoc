@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
 
-from collections import deque
-import aocUtils
-
 def run(path):
     cals = list()
     fp = open(f"{path}/input", 'r')
@@ -15,7 +12,7 @@ def run(path):
             cals.append(c)
             c = 0
     fp.close()
-    
+
     cals = sorted(cals, reverse=True)[:3]
     p1 = cals[0]
     p2 = sum(cals)
