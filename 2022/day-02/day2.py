@@ -9,7 +9,6 @@ RULES_V2 = {'A': {'X': 'C', 'Y':'A', 'Z': 'B'},
             'B': {'X': 'A', 'Y':'B', 'Z': 'C'},
             'C': {'X': 'B', 'Y':'C', 'Z': 'A'}}
 
-
 def solve(data):
     score = 0
     score_v2 = 0
@@ -29,7 +28,7 @@ def load_data(path):
     return plays
 
 def run(path):
-    
+
     data = load_data(f"{path}/input")
 
     p1, p2 = solve(data)
