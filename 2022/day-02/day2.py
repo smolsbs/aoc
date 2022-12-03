@@ -33,6 +33,4 @@ def run(path):
 
     p1, p2 = solve(data)
 
-    print(f'part1: {p1}')
-    print(f'part2: {p2}')
-
+    return (p1, p2)
