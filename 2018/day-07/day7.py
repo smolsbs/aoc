@@ -19,8 +19,5 @@ def main():
     node_list = depTree.nodes()
     queue = [None for _ in range(5)]
 
-    while node_list:
-        for 
-
 if __name__ == '__main__':
     main()

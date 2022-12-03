@@ -22,24 +22,22 @@ def main():
 
 class Opcodes():
     def __init__(self):
-        opcode = 
+        opcode = None
         reg1 = None
         reg2 = None
         reg3 = None
         val = None
-    
+
     def addr(self):
         self.val = self.reg1 + self.reg2
         return self.val
 
     def addi(self):
         self.val += self.reg2
-    
+
     def mulr(self):
         self.val = self.reg1 * self.reg2
         return self.val
-    def 
-    
 
 
 if __name__ == '__main__':
