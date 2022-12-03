@@ -26,9 +26,13 @@ def main():
     run_day = importlib.import_module(module_path)
     _path = f"{os.getcwd()}/{year}/day-{args.day:02d}"
     start = time.time_ns()
-    run_day.run(_path)
+    p1, p2 = run_day.run(_path)
     stop = (time.time_ns() - start) / 10**6
-    cprint(f"Execution time: {stop} ms", 'green')
+
+
+    cprint(f'Part1: {p1}', 'red' if p1 is None else 'green')
+    cprint(f'Part2: {p2}', 'red' if p2 is None else 'green')
+    cprint(f"Execution time: {stop} ms", color='grey', on_color="on_white")
 
 
 if __name__ == '__main__':
