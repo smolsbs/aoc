@@ -4,9 +4,18 @@ import argparse
 import importlib
 import os
 import time
+from sys import exit
 from termcolor import cprint
 
 YEAR = 2022
+
+class NotAValidDayError(Exception):
+    def __init__(self, day):
+        self.day = day
+        self.message = f"{self.day} is not a valid day."
+    
+    def __str__(self):
+        return self.message
 
 
 def main():
@@ -16,6 +25,9 @@ def main():
 
     args = parser.parse_args()
 
+    if args.day > 31 or args.day < 1:
+        raise NotAValidDayError(args.day)
+
     if args.year:
         year = args.year
     else:
@@ -23,7 +35,12 @@ def main():
 
     module_path = f"{year}.day-{args.day:02d}.day{args.day}"
 
-    run_day = importlib.import_module(module_path)
+    try:
+        run_day = importlib.import_module(module_path)
+    except ModuleNotFoundError:
+        cprint(f"Day {args.day} of year {year} not found.", 'red')
+        exit(1)
+    
     _path = f"{os.getcwd()}/{year}/day-{args.day:02d}"
     start = time.time_ns()
     p1, p2 = run_day.run(_path)
