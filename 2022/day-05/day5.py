@@ -48,17 +48,24 @@ def create_crates(data):
 def loadInput(_path):
     fp = open(_path, 'r')
     lines = fp.read().split('\n')
+    if lines[-1] == "":
+        lines.pop()
     fp.close()
-
-    crates = create_crates(lines[8::-1])
-    moves = lines[10:-1]
+    
+    for l, idx in zip(lines, range(len(lines))):
+        if l == '':
+            lines.pop(idx)
+            crates = create_crates(lines[idx-1::-1])
+            moves = lines[idx:]
+            break
+    
     return dict(crates), moves
 
 def run(path):
+
     crates, moves = loadInput(f"{path}/input")
 
     p1 = solve_part_1(copy.deepcopy(crates), moves)
     p2 = solve_part_2(copy.deepcopy(crates), moves)
 
     return (p1, p2)
-
