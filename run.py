@@ -18,20 +18,40 @@ class NotAValidDayError(Exception):
         return self.message
 
 
+def print_aval_days(year=YEAR):
+    root_path = os.getcwd()
+    dirs = sorted(os.listdir(f"{root_path}/{year}"))
+    print(f"┏ Year: {year}")
+    for folder, idx in zip(dirs, range(len(dirs))):
+        if folder == '__pycache__' or folder == '__init__.py':
+            continue
+        if idx == len(dirs)-1:
+            print(f"┗━━ {folder}")
+        else:
+            print(f"┣━━ {folder}")
+
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-d', action='store', required=True, type=int, dest='day')
+
+    req = parser.add_mutually_exclusive_group()
+
+    req.add_argument('-p', '--print', action='store_true', dest='print')
+    req.add_argument('-d', action='store', type=int, dest='day')
     parser.add_argument('-y', action='store', type=int, dest='year')
 
     args = parser.parse_args()
-
-    if args.day > 31 or args.day < 1:
-        raise NotAValidDayError(args.day)
 
     if args.year:
         year = args.year
     else:
         year = YEAR
+    
+    if args.print:
+        print_aval_days()
+        return
+
+    if args.day > 31 or args.day < 1:
+        raise NotAValidDayError(args.day)
 
     module_path = f"{year}.day-{args.day:02d}.day{args.day}"
 
