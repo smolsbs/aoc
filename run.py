@@ -30,6 +30,17 @@ def print_aval_days(year=YEAR):
         else:
             print(f"┣━━ {folder}")
 
+def convert_time(time):
+    if time // 10**9  != 0:
+        return f"{round(time / 10**9, 3)} s"
+    elif time // 10**6 != 0:
+        return f"{round(time / 10**6, 3)} ms"
+    elif time // 10**3 != 0:
+        return f"{round(time / 10**3, 3)} us"
+    else:
+        return f"{time} ns"
+
+
 def main():
     parser = argparse.ArgumentParser()
 
@@ -53,7 +64,34 @@ def main():
     if args.day > 31 or args.day < 1:
         raise NotAValidDayError(args.day)
 
-    module_path = f"{year}.day-{args.day:02d}.day{args.day}"
+    _path = f"{os.getcwd()}/{year}/day-{args.day:02d}"
+
+    # check if I have more than one python file for the day
+    files = [f for f in os.listdir(_path) if f.endswith('.py')]
+    if len(files) > 1:
+        n_files = len(files)
+        while True:
+            os.system('clear')
+            for f, idx in zip(files, range(n_files)):
+                print(f"{idx+1}) {f}")
+            try:
+                usrIn = int(input("Select which file to run: "))
+            except ValueError:
+                print("Invalid choice.")
+                time.sleep(2)
+                pass
+            if (usrIn > 0) and (usrIn <= n_files):
+                file = files[usrIn-1]
+                break
+            else:
+                print("\nInvalid choice.")
+                time.sleep(2)
+    else:
+        file = files[0]
+    
+    os.system('clear')
+
+    module_path = f"{year}.day-{args.day:02d}.{file.split('.')[0]}"
 
     try:
         run_day = importlib.import_module(module_path)
@@ -61,16 +99,17 @@ def main():
         cprint(f"Day {args.day} of year {year} not found.", 'red')
         exit(1)
     
-    _path = f"{os.getcwd()}/{year}/day-{args.day:02d}"
+    cprint(f"=== Year: {year} ===", 'blue')
+    cprint(f"\nDay {args.day}\n", 'blue')
+    # time it and run the day
     start = time.time_ns()
     p1, p2 = run_day.run(_path)
-    stop = (time.time_ns() - start) / 10**6
+    stop = (time.time_ns() - start)
 
 
-    cprint(f'Part1: {p1}', 'red' if p1 is None else 'green')
-    cprint(f'Part2: {p2}', 'red' if p2 is None else 'green')
-    cprint(f"Execution time: {stop} ms", color='grey', on_color="on_white")
-
+    cprint(f'Part 1: {p1}', 'red' if p1 is None else 'green')
+    cprint(f'Part 2: {p2}', 'red' if p2 is None else 'green')
+    cprint(f"\nExecution time: {convert_time(stop)}", color='grey', on_color="on_white")
 
 if __name__ == '__main__':
     main()
