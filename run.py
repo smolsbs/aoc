@@ -13,7 +13,7 @@ class NotAValidDayError(Exception):
     def __init__(self, day):
         self.day = day
         self.message = f"{self.day} is not a valid day."
-    
+
     def __str__(self):
         return self.message
 
@@ -56,9 +56,9 @@ def main():
         year = args.year
     else:
         year = YEAR
-    
+
     if args.print:
-        print_aval_days()
+        print_aval_days(year)
         return
 
     if args.day > 31 or args.day < 1:
@@ -88,7 +88,7 @@ def main():
                 time.sleep(2)
     else:
         file = files[0]
-    
+
     os.system('clear')
 
     module_path = f"{year}.day-{args.day:02d}.{file.split('.')[0]}"
@@ -98,7 +98,7 @@ def main():
     except ModuleNotFoundError:
         cprint(f"Day {args.day} of year {year} not found.", 'red')
         exit(1)
-    
+
     cprint(f"=== Year: {year} ===", 'blue')
     cprint(f"\nDay {args.day}\n", 'blue')
     # time it and run the day
