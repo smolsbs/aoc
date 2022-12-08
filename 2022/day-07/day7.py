@@ -7,7 +7,7 @@ def solve_p1(data):
     sizes = defaultdict(int)
     for _dir, files in data.items():
         _s = sum([f[1] for f in files])
-        sizes[_dir] = _s
+        sizes[_dir] += _s
         aux = _dir
         while True:
             a = aux.split('/')
@@ -17,8 +17,9 @@ def solve_p1(data):
             aux = '/'.join(a)
             sizes[aux] += _s
 
+
     return sum([v for v in sizes.values() if v <= 100000]), sizes
-            
+
 def solve_p2(data):
     aval_space = 70000000 - data['root']
     # 30000000
@@ -32,10 +33,10 @@ def solve_p2(data):
         if aval_space + data[d[0]] >= 30000000:
             return data[d[0]]
 
-def parse(path): 
+def parse(path):
     with open(path, 'r') as fp:
         data = fp.read().strip().split('\n')
-    
+
     dirs = defaultdict(list)
     list_of_dirs = ['root']
     cDir = 'root'
@@ -51,7 +52,7 @@ def parse(path):
             else:
                 list_of_dirs.append(a[1])
             cDir = '/'.join(list_of_dirs)
-        
+
         elif a[0] not in ('ls', 'dir'):
             dirs[cDir].append( (a[1], int(a[0])) )
 
