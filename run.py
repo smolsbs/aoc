@@ -4,10 +4,10 @@ import argparse
 import importlib
 import os
 import time
-from sys import exit
+from sys import exit, platform
 from termcolor import cprint
 
-YEAR = 2022
+YEAR = 2023
 
 class NotAValidDayError(Exception):
     def __init__(self, day):
@@ -89,7 +89,10 @@ def main():
     else:
         file = files[0]
 
-    os.system('clear')
+    if platform == "win32":
+        os.system("CLS")
+    else:
+        os.system("clear")
 
     module_path = f"{year}.day-{args.day:02d}.{file.split('.')[0]}"
 
