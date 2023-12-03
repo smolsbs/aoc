@@ -21,6 +21,16 @@ def run(path):
 
     return (p1, p2)
 
+# === Testing suite ===
+def get_sinput_path():
+    from pathlib import Path
+    return Path(__file__).parent.absolute() 
+
+def test_p1():
+    raise NotImplementedError
+
+def test_p2():
+    raise NotImplementedError
 """
 
 def check_if_dir_exists(path):
