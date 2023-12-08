@@ -43,7 +43,6 @@ def create(args, verbose=False):
     check_if_dir_exists(_path)
     os.chdir(_path)
 
-    open('README.md', 'w').close()
     open('input', 'w').close()
     fn = "day{}.py".format(args['day'])
     fp = open(fn, 'w')
