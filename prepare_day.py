@@ -27,9 +27,11 @@ def get_sinput_path():
     return Path(__file__).parent.absolute() 
 
 def test_p1():
+    data = aocUtils.loadInput(f"{get_sinput_path()}/sinput")
     raise NotImplementedError
 
 def test_p2():
+    data = aocUtils.loadInput(f"{get_sinput_path()}/sinput")
     raise NotImplementedError
 """
 
